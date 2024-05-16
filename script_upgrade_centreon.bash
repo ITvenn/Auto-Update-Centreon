@@ -19,18 +19,20 @@ echo "Voulez-vous vraiment passer à la version ${version} de Centreon ? (o/n)"
 read reponse
 if [ "$reponse" = "o" ]; then
     echo "Mise à jour vers la version ${version}..."
-
+    echo "Voulez-vous sauveguarder la base de données de Centreon ? (o/n)"
+    read reponsebd
     # Sauvegarde de la base de données
-    echo "Sauvegarde de la base de données ..."
-    echo -n "Entrez le nom de la base de données à sauvegarder: "
-    echo
-    read database_name
-    echo -n "Entrez le mot de passe MySQL pour l'utilisateur 'root': "
-    echo
-    read -s password
-    # Dump mysql dans /tmp
-    mysqldump -u root -p$password --databases "$database_name" > "/tmp/backup_${database_name}.sql" && echo "La sauvegarde de la base de données '$database_name' a été créée avec succès dans /tmp." || { echo -e "\E[31mErreur : échec de la sauvegarde de la base de données.\E[0m"; exit 1; }
-
+    if [ "$reponsebd" = "o" ]; then
+      echo "Sauvegarde de la base de données ..."
+      echo -n "Entrez le nom de la base de données à sauvegarder: "
+      echo
+      read database_name
+      echo -n "Entrez le mot de passe MySQL pour l'utilisateur 'root': "
+      echo
+      read -s password
+      # Dump mysql dans /tmp
+      mysqldump -u root -p$password --databases "$database_name" > "/tmp/backup_${database_name}.sql" && echo "La sauvegarde de la base de données '$database_name' a été créée avec succès dans /tmp." || { echo -e "\E[31mErreur : échec de la sauvegarde de la base de données.\E[0m"; exit 1; }
+    fi
     
     # Mise à jour de Centreon
     echo "deb https://packages.centreon.com/apt-standard-${version}-stable/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/centreon.list && echo "Ajout du dépot Centreon reussi !" || { echo -e "\E[31mErreur : échec ajout dépot Centreon.\E[0m"; exit 1; }
