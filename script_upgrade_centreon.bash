@@ -33,11 +33,31 @@ if [ "$reponse" = "o" ]; then
 
     
     # Mise à jour de Centreon
+    echo "deb https://packages.centreon.com/apt-standard-${version}-stable/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/centreon.list && echo "Ajout du dépot Centreon reussi !" || { echo -e "\E[31mErreur : échec ajout dépot Centreon.\E[0m"; exit 1; }
+    echo "deb https://packages.centreon.com/apt-plugins-stable/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/centreon-plugins.list
+    wget -O- https://apt-key.centreon.com | gpg --dearmor | tee /etc/apt/trusted.gpg.d/centreon.gpg > /dev/null 2>&1
+    apt update
 
+    # Arrêt du processus Centreon Broker
+    systemctl stop cbd
+
+    # Suppression des fichiers de rétention présents
+    rm /var/lib/centreon-broker/* -f
+
+    # Videz le cache
+    apt clean all
+    apt update
+
+    # Mise à jour de l'ensemble des composants
+    apt upgrade centreon
+
+    # Finalisation de la mise à jour
+    apt autoremove
 
     # Redémarrer le serveur Apache & Centreon pour appliquer les changements
     echo "Redémarrage de Centreon..."
-    systemctl restart apache2 && echo "Centreon est maintenant à jour et en ligne !" || { echo -e "\E[31mErreur : échec du redémarrage de Centreon.\E[0m"; exit 1; }
+    systemctl daemon-reload 
+    systemctl restart php8.1-fpm apache2 centreon cbd centengine gorgoned && echo "Centreon est maintenant à jour et en ligne !" || { echo -e "\E[31mErreur : échec du redémarrage de Centreon.\E[0m"; exit 1; }
 
     # Sécurité Suppression du script upgrade
     rm $chemin/script_upgrade_centreon.bash && echo "Suppression du script upgrade !" || { echo -e "\E[31mErreur : échec suppression du script upgrade.\E[0m"; exit 1; }
