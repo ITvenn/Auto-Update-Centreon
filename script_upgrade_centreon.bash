@@ -32,6 +32,8 @@ if [ "$reponse" = "o" ]; then
       read -s password
       # Dump mysql dans /tmp
       mysqldump -u root -p$password --databases "$database_name" > "/tmp/backup_${database_name}.sql" && echo "La sauvegarde de la base de données '$database_name' a été créée avec succès dans /tmp." || { echo -e "\E[31mErreur : échec de la sauvegarde de la base de données.\E[0m"; exit 1; }
+    else
+      echo "la base de données Centreon ne sera pas sauvegardé"
     fi
     
     # Mise à jour de Centreon
