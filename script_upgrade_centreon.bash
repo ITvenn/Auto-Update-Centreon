@@ -35,7 +35,7 @@ if [ "$reponse" = "o" ]; then
   else
     echo "la base de données Centreon ne sera pas sauvegardé"
     echo "Voulez-vous continuer ? (o/n)"
-    read responsebd2
+    read reponsebd2
     if [ "$reponsebd2" = "o" ]; then
       echo "Bypass de la sauvegarde de la base de données"
     else
@@ -61,7 +61,7 @@ if [ "$reponse" = "o" ]; then
   apt update
 
   # Mise à jour de l'ensemble des composants
-  apt upgrade centreon
+  apt full-upgrade centreon
 
   # Finalisation de la mise à jour
   apt autoremove
