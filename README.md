@@ -4,7 +4,8 @@
 # Mise à jour automatique de Centreon
 
 ## Description
-Ce script Bash permet de mettre à jour automatiquement Centreon vers une version souhaitée. Il offre également une option pour sauvegarder la base de données avant la mise à jour. 
+Ce script Bash permet de mettre à jour automatiquement Centreon vers une version souhaitée. Il offre également une option pour sauvegarder la base de données avant la mise à jour.
+Script testé sur une montée en version de centreon de la version 23.10 vers 24.04.
 
 ## Auteur
 Vincent HAMEL
