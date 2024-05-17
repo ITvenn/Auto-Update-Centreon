@@ -23,15 +23,24 @@ Vincent HAMEL
     ```
 
 2. Donnez les permissions d'exécution au script :
+Version Central
     ```sh
     chmod +x script_upgrade_centreon.bash
     ```
+Version Poller
+    ```sh
+    chmod +x script_upgrade_poller.bash
+    ```
 
 3. Exécutez le script :
+Version Central
     ```sh
     ./script_upgrade_centreon.bash
     ```
-
+Version Poller
+    ```sh
+    ./script_upgrade_poller.bash
+    ```
 ## Fonctionnalités
 - **Demande de la version de Centreon souhaitée** : Le script vous invite à entrer la version souhaitée de Centreon.
 - **Confirmation de la mise à jour** : Vous devez confirmer la mise à jour avant qu'elle ne commence.
