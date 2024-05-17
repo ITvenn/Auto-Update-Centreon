@@ -11,6 +11,9 @@
 # Récuperation du chemin ou est executer le script
 chemin=$(pwd);
 
+# Récupération de la version PHP utilisée
+version_php=$(php -r 'echo phpversion();' | cut -d '.' -f 1,2)
+
 # Choix de la version souhaité
 echo -n "Veuillez entrer le numero de version Centreon souhaité dans le format suivant X.X"
 read version
@@ -45,7 +48,7 @@ if [ "$reponse" = "o" ]; then
   # Redémarrer le serveur Apache & Centreon pour appliquer les changements
   echo "Redémarrage de Centreon..."
   systemctl daemon-reload 
-  systemctl restart php8.1-fpm
+  systemctl restart php$version_php-fpm
   systemctl restart centreon cbd centengine gorgoned && echo "Centreon est maintenant à jour et en ligne !" || { echo -e "\E[31mErreur : échec du redémarrage de Centreon.\E[0m"; exit 1; }
 
   # Sécurité Suppression du script upgrade

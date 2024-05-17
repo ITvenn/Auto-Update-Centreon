@@ -11,6 +11,21 @@
 # Récuperation du chemin ou est executer le script
 chemin=$(pwd);
 
+# Récupération de la version PHP utilisée
+version_php=$(php -r 'echo phpversion();' | cut -d '.' -f 1,2)
+
+# Récupération de la version web serveur utilisée
+# Vérifier si Apache2 est en cours d'exécution
+if pgrep apache2 > /dev/null; then
+  webserver="apache2"
+# Vérifier si Nginx est en cours d'exécution
+elif pgrep nginx > /dev/null; then
+  webserver="nginx"
+# Si aucun des deux n'est trouvé
+else
+  echo "aucun serveur web n'a été trouvé"
+fi
+
 # Choix de la version souhaité
 echo -n "Veuillez entrer le numero de version Centreon souhaité dans le format suivant X.X"
 read version
@@ -69,8 +84,8 @@ if [ "$reponse" = "o" ]; then
   # Redémarrer le serveur Apache & Centreon pour appliquer les changements
   echo "Redémarrage de Centreon..."
   systemctl daemon-reload 
-  systemctl restart php8.1-fpm
-  systemctl restart apache2 
+  systemctl restart php$version_php-fpm
+  systemctl restart $webserver 
   systemctl restart centreon cbd centengine gorgoned && echo "Centreon est maintenant à jour et en ligne !" || { echo -e "\E[31mErreur : échec du redémarrage de Centreon.\E[0m"; exit 1; }
 
   # Sécurité Suppression du script upgrade
