@@ -61,10 +61,10 @@ if [ "$reponse" = "o" ]; then
   apt update
 
   # Mise à jour de l'ensemble des composants
-  apt full-upgrade centreon
+  apt full-upgrade centreon -y
 
   # Finalisation de la mise à jour
-  apt autoremove
+  apt autoremove -y
 
   # Redémarrer le serveur Apache & Centreon pour appliquer les changements
   echo "Redémarrage de Centreon..."
