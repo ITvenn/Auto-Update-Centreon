@@ -20,9 +20,9 @@ read reponse
 if [ "$reponse" = "o" ]; then
     echo "Mise à jour vers la version ${version}..."
     echo "Voulez-vous sauveguarder la base de données de Centreon ? (o/n)"
-    read reponsebd
+    read reponsebd1
     # Sauvegarde de la base de données
-    if [ "$reponsebd" = "o" ]; then
+    if [ "$reponsebd1" = "o" ]; then
       echo "Sauvegarde de la base de données ..."
       echo -n "Entrez le nom de la base de données à sauvegarder: "
       echo
@@ -34,6 +34,13 @@ if [ "$reponse" = "o" ]; then
       mysqldump -u root -p$password --databases "$database_name" > "/tmp/backup_${database_name}.sql" && echo "La sauvegarde de la base de données '$database_name' a été créée avec succès dans /tmp." || { echo -e "\E[31mErreur : échec de la sauvegarde de la base de données.\E[0m"; exit 1; }
     else
       echo "la base de données Centreon ne sera pas sauvegardé"
+      echo "Voulez-vous continuer ? (o/n)"
+      read responsebd2
+      if [ "$reponsebd2" = "o" ]; then
+        echo "Bypass de la sauvegarde de la base de données"
+      else
+        echo "Mise à jour annulée."
+        exit 1  # Quitte le script si l'utilisateur répond "non"
     fi
     
     # Mise à jour de Centreon
