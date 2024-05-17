@@ -23,21 +23,21 @@ Vincent HAMEL
     ```
 
 2. Donnez les permissions d'exécution au script :
-Version Central
+- Version Central
     ```sh
     chmod +x script_upgrade_centreon.bash
     ```
-Version Poller
+- Version Poller
     ```sh
     chmod +x script_upgrade_poller.bash
     ```
 
 3. Exécutez le script :
-Version Central
+- Version Central
     ```sh
     ./script_upgrade_centreon.bash
     ```
-Version Poller
+- Version Poller
     ```sh
     ./script_upgrade_poller.bash
     ```
