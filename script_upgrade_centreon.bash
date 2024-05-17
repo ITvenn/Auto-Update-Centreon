@@ -69,7 +69,9 @@ if [ "$reponse" = "o" ]; then
   # Redémarrer le serveur Apache & Centreon pour appliquer les changements
   echo "Redémarrage de Centreon..."
   systemctl daemon-reload 
-  systemctl restart php8.1-fpm apache2 centreon cbd centengine gorgoned && echo "Centreon est maintenant à jour et en ligne !" || { echo -e "\E[31mErreur : échec du redémarrage de Centreon.\E[0m"; exit 1; }
+  systemctl restart php8.1-fpm
+  systemctl restart apache2 
+  systemctl restart centreon cbd centengine gorgoned && echo "Centreon est maintenant à jour et en ligne !" || { echo -e "\E[31mErreur : échec du redémarrage de Centreon.\E[0m"; exit 1; }
 
   # Sécurité Suppression du script upgrade
   rm $chemin/script_upgrade_centreon.bash && echo "Suppression du script upgrade !" || { echo -e "\E[31mErreur : échec suppression du script upgrade.\E[0m"; exit 1; }
