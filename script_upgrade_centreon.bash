@@ -27,7 +27,7 @@ else
 fi
 
 # Choix de la version souhaité
-echo -n "Veuillez entrer le numero de version Centreon souhaité dans le format suivant X.X"
+echo -n "Veuillez entrer le numero de version Centreon souhaitée dans le format suivant X.X"
 echo
 read version
 echo "Voulez-vous vraiment passer à la version ${version} de Centreon ? (o/n)"
